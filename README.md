@@ -39,6 +39,16 @@ flowchart LR
 4. A rollback is `git revert` — ArgoCD syncs the cluster back to the previous
    state.
 
+## The chart estate
+
+Five Helm charts cover the data-science platform: the expression engine, its
+on-demand worker pool (with AWS and Azure variants, each carrying its KEDA
+ScaledObject), and the API gateway with its alerts handler. Each has on-prem
+values for customer installs, and the production CI pipeline commits image-tag
+bumps straight into the repository, so the chart history is the release
+history. HTTPS termination moved from the nginx ingress to the cloud load
+balancer, and hostnames, virtual hosts and queue names are values, not code.
+
 ## Design points
 
 - **One chart, per-environment values** — the same artefact promotes from
